@@ -11,7 +11,7 @@ BOT_TOKEN="6652935072:AAEDRvQfbuQVdxpOpillomYwpYn6euetpdY"
 
 studygpt = Client("studygpt", api_id=API_ID,api_hash=API_HASH,bot_token=BOT_TOKEN)
 
- start_keyboard = [
+start_keyboard = [
         [
             InlineKeyboardButton("Hᴇʟᴘ & Cᴏᴍᴍᴀɴᴅs", callback_data="help"),
             InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url="https://t.me/yumiko_group"),
