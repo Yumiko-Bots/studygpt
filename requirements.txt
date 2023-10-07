@@ -3,3 +3,4 @@ TgCrypto
 pymongo[srv]
 motor
 openai
+asyncio
