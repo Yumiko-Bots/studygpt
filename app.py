@@ -12,7 +12,7 @@ BOT_TOKEN="6652935072:AAEDRvQfbuQVdxpOpillomYwpYn6euetpdY"
 
 studygpt = Client("studygpt", api_id=API_ID,api_hash=API_HASH,bot_token=BOT_TOKEN)
 
-@app.on_message(filters.command(["start"]))
+@studygpt.on_message(filters.command(["start"]))
 async def start_command(_, message):
     keyboard = [
         [
