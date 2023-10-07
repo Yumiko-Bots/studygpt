@@ -11,6 +11,17 @@ BOT_TOKEN="6652935072:AAEDRvQfbuQVdxpOpillomYwpYn6euetpdY"
 
 studygpt = Client("studygpt", api_id=API_ID,api_hash=API_HASH,bot_token=BOT_TOKEN)
 
+ start_keyboard = [
+        [
+            InlineKeyboardButton("Hᴇʟᴘ & Cᴏᴍᴍᴀɴᴅs", callback_data="help"),
+            InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url="https://t.me/yumiko_group"),
+        ],
+        [
+            InlineKeyboardButton("Uᴘᴅᴀᴛᴇs", url="https://t.me/yumikoupdates"),
+            InlineKeyboardButton("Aʙᴏᴜᴛ", callback_data="about"),
+        ],
+    ]
+
 @studygpt.on_message(filters.command("start"))
 async def start(studygpt,message):
     await message.reply_text(
