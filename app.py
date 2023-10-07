@@ -12,7 +12,9 @@ BOT_TOKEN="6652935072:AAEDRvQfbuQVdxpOpillomYwpYn6euetpdY"
 
 studygpt = Client("studygpt", api_id=API_ID,api_hash=API_HASH,bot_token=BOT_TOKEN)
 
-start_keyboard = [
+@app.on_message(filters.command(["start"]))
+async def start_command(_, message):
+    keyboard = [
         [
             InlineKeyboardButton("Hᴇʟᴘ & Cᴏᴍᴍᴀɴᴅs", callback_data="help"),
             InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url="https://t.me/yumiko_group"),
@@ -22,12 +24,11 @@ start_keyboard = [
             InlineKeyboardButton("Aʙᴏᴜᴛ", callback_data="about"),
         ],
     ]
-
-@studygpt.on_message(filters.command("start"))
-async def start(studygpt, message):
-    msg = await message.reply_text("Bot is starting in 2 seconds...")
-    await msg.delete()
-    await asyncio.sleep(2)
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    msg = await message.reply_text(
+        "Bot is starting...."
+    )
+    await asyncio.sleep(0.3)
     await msg.edit_text(
          text="""📚 Wᴇʟᴄᴏᴍᴇ ᴛᴏ Sᴛᴜᴅʏ ɢᴘᴛ Bᴏᴛ! 🤖
 
@@ -37,7 +38,7 @@ Tʏᴘᴇ '/help' ᴛᴏ sᴇᴇ ᴀ ʟɪsᴛ ᴏғ ᴀᴠᴀɪʟᴀʙʟᴇ ᴄ�
 
 Hᴀᴘᴘʏ sᴛᴜᴅʏɪɴɢ! 📖✨
 """,
-         reply_markup=start_keyboard,
+         reply_markup=reply_markup,
     )
 
 studygpt.run()
