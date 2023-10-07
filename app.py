@@ -25,7 +25,7 @@ start_keyboard = [
 
 @studygpt.on_message(filters.command("start"))
 async def start(studygpt, message):
-    msg = await message.edit_text("Bot is starting in 2 seconds...")
+    msg = await message.reply_text("Bot is starting in 2 seconds...")
     await msg.delete()
     await asyncio.sleep(2)
     await msg.edit_text(
