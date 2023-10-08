@@ -14,7 +14,9 @@ studygpt = Client("studygpt", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TO
 
 
 def generate_code_prompt(code_input):
-    return f"Code the following:\n\n{code_input}\n\nOutput:"
+    chat_completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": code_input}])
+    answer = chat_completion.choices[0].message["content"]
+    return answer
 
 
 @studygpt.on_message(filters.command(["start"]))
