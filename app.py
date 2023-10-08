@@ -45,18 +45,37 @@ Hᴀᴘᴘʏ sᴛᴜᴅʏɪɴɢ! 📖✨
 async def help(_, message):
     keyboard = [
         [
-            InlineKeyboardButton("Coding Assistant", callback_data="coding"),
+            InlineKeyboardButton("Cᴏᴅɪɴɢ Assɪsᴛᴀɴᴛ", callback_data="coding"),
         ],
         [
-            InlineKeyboardButton("Image to Text", callback_data="image_to_text"),
+            InlineKeyboardButton("Iᴍᴀɢᴇ ᴛᴏ Tᴇxᴛ", callback_data="image_to_text"),
         ],
         [
-            InlineKeyboardButton("Chat GPT Assistant", callback_data="chat_gpt"),
+            InlineKeyboardButton("Cʜᴀᴛ GPT Assɪsᴛᴀɴᴛ", callback_data="chat_gpt"),
         ],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await message.reply_text(
-        "Here are some available options:",
+        "Hᴇʀᴇ ɪs ᴛʜᴇ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ ᴛᴏ sᴇᴇ ᴄʟɪᴄᴋ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴs:",
+        reply_markup=reply_markup,
+    )
+
+@studygpt.on_callback_query(filters.regex(["help"]))
+async def help_callback(client, CallbackQuery):
+    keyboard = [
+        [
+            InlineKeyboardButton("Cᴏᴅɪɴɢ Assɪsᴛᴀɴᴛ", callback_data="coding"),
+        ],
+        [
+            InlineKeyboardButton("Iᴍᴀɢᴇ ᴛᴏ Tᴇxᴛ", callback_data="image_to_text"),
+        ],
+        [
+            InlineKeyboardButton("Cʜᴀᴛ GPT Assɪsᴛᴀɴᴛ", callback_data="chat_gpt"),
+        ],
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await CallbackQuery.message.reply_text(
+        "Hᴇʀᴇ ɪs ᴛʜᴇ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ ᴛᴏ sᴇᴇ ᴄʟɪᴄᴋ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴs:",
         reply_markup=reply_markup,
     )
 
@@ -69,6 +88,21 @@ async def callback_query_handler(_, query):
     elif query.data == "chat_gpt":
         await query.message.reply_text("You selected Chat GPT Assistant. Feel free to ask me any questions!")
 
+@studygpt.on_message(filters.command(["code"], prefixes="/"))
+async def code(_, message):
+    if len(message.command) < 2:
+        await message.reply_text("Please provide a coding question or code to assist with.")
+        return
+
+    code_input = " ".join(message.command[1:])
+    response = openai.Completion.create(
+        engine="davinci",
+        prompt=f"Code the following:\n\n{code_input}\n\nOutput:",
+        max_tokens=50  
+    )
+    code_output = response.choices[0].text.strip()
+    await message.reply_text(f"**Input:**\n`\n{code_input}\n`\n**Output:**\n`\n{code_output}\n`")
+    
 studygpt.run()
 print("bot started!")
 
