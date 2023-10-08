@@ -89,11 +89,12 @@ async def callback_query_handler(_, query):
 
 @studygpt.on_message(filters.command(["code"], prefixes="/"))
 async def code(_, message):
+    chat = message.chat.id
     if len(message.command) < 2:
         await message.reply_text("Please provide a coding question or code to assist with.")
         return
     code_input = " ".join(message.command[1:])
-    await message.send_chat_action(action="typing your coding...")  
+    await message.chat.send_chat_action(action="typing your coding...")  
     response = openai.Completion.create(
         engine="davinci",
         prompt=f"Code the following:\n\n{code_input}\n\nOutput:",
