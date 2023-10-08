@@ -5,7 +5,7 @@ import asyncio
 from pyrogram.enums import ChatAction
 
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 API_ID=14688437
 API_HASH="5310285db722d1dceb128b88772d53a6"
@@ -96,8 +96,7 @@ async def code(_, message):
         await message.reply_text("Please provide a coding question or code to assist with.")
         return
     code_input = " ".join(message.command[1:])
-    await message.reply_chat_action(action=ChatAction.TYPING)
-    
+    await message.reply_chat_action(action="typing your code...")    
     response = openai.Completion.create(
         engine="davinci",
         prompt=f"Code the following:\n\n{code_input}\n\nOutput:",
