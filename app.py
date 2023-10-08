@@ -2,6 +2,8 @@ from pyrogram import filters, Client, idle
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 import openai
 import asyncio
+from pyrogram.types.chat import ChatAction
+
 
 openai.api_key = "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"
 
@@ -94,7 +96,8 @@ async def code(_, message):
         await message.reply_text("Please provide a coding question or code to assist with.")
         return
     code_input = " ".join(message.command[1:])
-    await message.reply_chat_action(action="typing")   
+    await message.reply_chat_action(action=ChatAction.TYPING)
+    
     response = openai.Completion.create(
         engine="davinci",
         prompt=f"Code the following:\n\n{code_input}\n\nOutput:",
