@@ -60,7 +60,7 @@ async def help(_, message):
         reply_markup=reply_markup,
     )
 
-@studygpt.on_callback_query(filters.regex(["help"]))
+@studygpt.on_callback_query(filters.regex(["$help"]))
 async def help_callback(client, CallbackQuery):
     keyboard = [
         [
