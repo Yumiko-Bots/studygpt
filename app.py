@@ -13,7 +13,7 @@ BOT_TOKEN="6652935072:AAEDRvQfbuQVdxpOpillomYwpYn6euetpdY"
 studygpt = Client("studygpt", api_id=API_ID,api_hash=API_HASH,bot_token=BOT_TOKEN)
 
 @studygpt.on_message(filters.command(["start"]))
-async def start_command(_, message):
+async def start(_, message):
     keyboard = [
         [
             InlineKeyboardButton("Hᴇʟᴘ & Cᴏᴍᴍᴀɴᴅs", callback_data="help"),
@@ -40,6 +40,34 @@ Hᴀᴘᴘʏ sᴛᴜᴅʏɪɴɢ! 📖✨
 """,
          reply_markup=reply_markup,
     )
+
+@studygpt.on_message(filters.command(["help"]))
+async def help(_, message):
+    keyboard = [
+        [
+            InlineKeyboardButton("Coding Assistant", callback_data="coding"),
+        ],
+        [
+            InlineKeyboardButton("Image to Text", callback_data="image_to_text"),
+        ],
+        [
+            InlineKeyboardButton("Chat GPT Assistant", callback_data="chat_gpt"),
+        ],
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await message.reply_text(
+        "Here are some available options:",
+        reply_markup=reply_markup,
+    )
+
+@studygpt.on_callback_query()
+async def callback_query_handler(_, query):
+    if query.data == "coding":
+        await query.message.reply_text("You selected Coding Assistant. How can I assist you with coding tasks?")
+    elif query.data == "image_to_text":
+        await query.message.reply_text("You selected Image to Text. Please upload an image, and I will convert it to text.")
+    elif query.data == "chat_gpt":
+        await query.message.reply_text("You selected Chat GPT Assistant. Feel free to ask me any questions!")
 
 studygpt.run()
 print("bot started!")
