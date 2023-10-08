@@ -4,7 +4,7 @@ import openai
 import asyncio
 from pyrogram.enums import ChatAction
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 API_ID = 14688437
 API_HASH = "5310285db722d1dceb128b88772d53a6"
