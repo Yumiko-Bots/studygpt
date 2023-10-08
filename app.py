@@ -13,7 +13,7 @@ BOT_TOKEN = "6652935072:AAEDRvQfbuQVdxpOpillomYwpYn6euetpdY"
 studygpt = Client("studygpt", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 
-def generate_code_prompt(code_input):
+def generate_code(code_input):
     chat_completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": code_input}])
     answer = chat_completion.choices[0].message["content"]
     return answer
@@ -108,11 +108,6 @@ async def code(_, message):
     code_input = " ".join(message.command[1:])
     await message.reply_chat_action(action=ChatAction.TYPING)
     prompt = generate_code_prompt(code_input)
-    response = openai.Completion.create(
-        engine="davinci",
-        prompt=prompt,
-        max_tokens=50,
-    )
     code_output = response.choices[0].text.strip()
     await message.reply_text(f"**Input:**\n`\n{code_input}\n`\n**Output:**\n`\n{code_output}\n`")
 
