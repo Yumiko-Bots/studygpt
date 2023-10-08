@@ -107,7 +107,7 @@ async def code(_, message):
         return
     code_input = " ".join(message.command[1:])
     await message.reply_chat_action(action=ChatAction.TYPING)
-    prompt = generate_code_prompt(code_input)
+    prompt = generate_code(code_input)
     code_output = response.choices[0].text.strip()
     await message.reply_text(f"**Input:**\n`\n{code_input}\n`\n**Output:**\n`\n{code_output}\n`")
 
