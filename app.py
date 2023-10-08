@@ -93,7 +93,7 @@ async def code(_, message):
         await message.reply_text("Please provide a coding question or code to assist with.")
         return
     code_input = " ".join(message.command[1:])
-    await message.chat.send_chat_action(action="typing your coding...")  
+    await message.send_chat_action(action="typing your coding...")  
     response = openai.Completion.create(
         engine="davinci",
         prompt=f"Code the following:\n\n{code_input}\n\nOutput:",
