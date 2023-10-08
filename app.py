@@ -94,7 +94,7 @@ async def code(_, message):
         await message.reply_text("Please provide a coding question or code to assist with.")
         return
     code_input = " ".join(message.command[1:])
-    await message.chat.send_chat_action(action="typing your coding...")  
+    await message.reply_chat_action(action="typing")   
     response = openai.Completion.create(
         engine="davinci",
         prompt=f"Code the following:\n\n{code_input}\n\nOutput:",
@@ -102,6 +102,7 @@ async def code(_, message):
     )
     code_output = response.choices[0].text.strip()
     await message.reply_text(f"**Input:**\n`\n{code_input}\n`\n**Output:**\n`\n{code_output}\n`")
+
 
     
 studygpt.run()
