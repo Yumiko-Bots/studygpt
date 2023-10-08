@@ -3,7 +3,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 import openai
 import asyncio
 
-API = "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"
+API = "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"
 openai.api_key = API
 
 API_ID=14688437
