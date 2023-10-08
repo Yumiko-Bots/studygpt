@@ -1,7 +1,7 @@
 from pyrogram import filters, Client, idle
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import openai
-from pyrogram.types import ChatAction
+from pyrogram.enums import ChatAction
 import asyncio
 
 openai.api_key = "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"
