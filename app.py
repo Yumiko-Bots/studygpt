@@ -60,8 +60,8 @@ async def help(_, message):
         reply_markup=reply_markup,
     )
 
-@studygpt.on_callback_query(filters.regex(["$help"]))
-async def help_callback(client, CallbackQuery):
+@studygpt.on_callback_query(filters.regex("help"))
+async def help_callback(_, query):
     keyboard = [
         [
             InlineKeyboardButton("Cᴏᴅɪɴɢ Assɪsᴛᴀɴᴛ", callback_data="coding"),
@@ -74,7 +74,7 @@ async def help_callback(client, CallbackQuery):
         ],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await CallbackQuery.message.reply_text(
+    await query.message.reply_text(
         "Hᴇʀᴇ ɪs ᴛʜᴇ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ ᴛᴏ sᴇᴇ ᴄʟɪᴄᴋ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴs:",
         reply_markup=reply_markup,
     )
