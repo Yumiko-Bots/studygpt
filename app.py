@@ -92,15 +92,16 @@ async def code(_, message):
     if len(message.command) < 2:
         await message.reply_text("Please provide a coding question or code to assist with.")
         return
-
     code_input = " ".join(message.command[1:])
+    await message.chat.send_chat_action(action="typing your coding...")  
     response = openai.Completion.create(
         engine="davinci",
         prompt=f"Code the following:\n\n{code_input}\n\nOutput:",
-        max_tokens=50  
+        max_tokens=50,
     )
     code_output = response.choices[0].text.strip()
     await message.reply_text(f"**Input:**\n`\n{code_input}\n`\n**Output:**\n`\n{code_output}\n`")
+
     
 studygpt.run()
 print("bot started!")
