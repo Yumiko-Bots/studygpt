@@ -1,17 +1,21 @@
 from pyrogram import filters, Client, idle
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import openai
+from pyrogram.types import ChatAction
 import asyncio
-from pyrogram.enums import ChatAction
-
 
 openai.api_key = "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"
 
-API_ID=14688437
-API_HASH="5310285db722d1dceb128b88772d53a6"
-BOT_TOKEN="6652935072:AAEDRvQfbuQVdxpOpillomYwpYn6euetpdY"
+API_ID = 14688437
+API_HASH = "5310285db722d1dceb128b88772d53a6"
+BOT_TOKEN = "6652935072:AAEDRvQfbuQVdxpOpillomYwpYn6euetpdY"
 
-studygpt = Client("studygpt", api_id=API_ID,api_hash=API_HASH,bot_token=BOT_TOKEN)
+studygpt = Client("studygpt", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+
+
+def generate_code_prompt(code_input):
+    return f"Code the following:\n\n{code_input}\n\nOutput:"
+
 
 @studygpt.on_message(filters.command(["start"]))
 async def start(_, message):
@@ -31,7 +35,7 @@ async def start(_, message):
     )
     await asyncio.sleep(0.3)
     await msg.edit_text(
-         text="""📚 Wᴇʟᴄᴏᴍᴇ ᴛᴏ Sᴛᴜᴅʏ ɢᴘᴛ Bᴏᴛ! 🤖
+        text="""📚 Wᴇʟᴄᴏᴍᴇ ᴛᴏ Sᴛᴜᴅʏ ɢᴘᴛ Bᴏᴛ! 🤖
 
 I'ᴍ ʜᴇʀᴇ ᴛᴏ ʜᴇʟᴘ ʏᴏᴜ ᴡɪᴛʜ ʏᴏᴜʀ sᴛᴜᴅɪᴇs. Jᴜsᴛ ᴛʏᴘᴇ ʏᴏᴜʀ ᴏ̨ᴜᴇsᴛɪᴏɴs ᴏʀ ᴛᴏᴘɪᴄs, ᴀɴᴅ I'ʟʟ ᴘʀᴏᴠɪᴅᴇ ʏᴏᴜ ᴡɪᴛʜ ᴇxᴘʟᴀɴᴀᴛɪᴏɴs, sᴜᴍᴍᴀʀɪᴇs, ᴀɴᴅ ᴀɴsᴡᴇʀs. Lᴇᴛ's ʟᴇᴀʀɴ ᴛᴏɢᴇᴛʜᴇʀ!
 
@@ -39,8 +43,9 @@ Tʏᴘᴇ '/help' ᴛᴏ sᴇᴇ ᴀ ʟɪsᴛ ᴏғ ᴀᴠᴀɪʟᴀʙʟᴇ ᴄ�
 
 Hᴀᴘᴘʏ sᴛᴜᴅʏɪɴɢ! 📖✨
 """,
-         reply_markup=reply_markup,
+        reply_markup=reply_markup,
     )
+
 
 @studygpt.on_message(filters.command(["help"]))
 async def help(_, message):
@@ -61,6 +66,7 @@ async def help(_, message):
         reply_markup=reply_markup,
     )
 
+
 @studygpt.on_callback_query(filters.regex("help"))
 async def help_callback(_, query):
     keyboard = [
@@ -80,6 +86,7 @@ async def help_callback(_, query):
         reply_markup=reply_markup,
     )
 
+
 @studygpt.on_callback_query()
 async def callback_query_handler(_, query):
     if query.data == "coding":
@@ -89,6 +96,7 @@ async def callback_query_handler(_, query):
     elif query.data == "chat_gpt":
         await query.message.reply_text("You selected Chat GPT Assistant. Feel free to ask me any questions!")
 
+
 @studygpt.on_message(filters.command(["code"], prefixes="/"))
 async def code(_, message):
     chat = message.chat.id
@@ -96,17 +104,16 @@ async def code(_, message):
         await message.reply_text("Please provide a coding question or code to assist with.")
         return
     code_input = " ".join(message.command[1:])
-    await message.reply_chat_action(action=ChatAction.TYPING)    
+    await message.reply_chat_action(action=ChatAction.TYPING)
+    prompt = generate_code_prompt(code_input)
     response = openai.Completion.create(
         engine="davinci",
-        prompt=f"Code the following:\n\n{code_input}\n\nOutput:",
+        prompt=prompt,
         max_tokens=50,
     )
     code_output = response.choices[0].text.strip()
     await message.reply_text(f"**Input:**\n`\n{code_input}\n`\n**Output:**\n`\n{code_output}\n`")
 
 
-    
 studygpt.run()
-print("bot started!")
-
+print("Bot started!")
