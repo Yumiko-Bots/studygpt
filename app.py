@@ -87,7 +87,7 @@ async def callback_query_handler(_, query):
 
 @studygpt.on_message(filters.command("code"))
 async def code(_, message):
-    if len(message.text.split()) > 1;
+    if len(message.text.split()) > 1:
         prompt = message.text.split(None, 1)[1]
         answer = genrate_code(prompt)
         await message.reply_text(answer)
