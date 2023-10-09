@@ -12,14 +12,10 @@ BOT_TOKEN = "6652935072:AAEDRvQfbuQVdxpOpillomYwpYn6euetpdY"
 
 studygpt = Client("studygpt", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-def generate_code(code_input):
-    response = openai.ChatCompletion.create(
-        engine="davinci",
-        prompt=code_input,
-        max_tokens=50,
-    )
-    code_output = response.choices[0].text.strip()
-    return code_output
+def genrate_code(prompt):
+    chat_completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": prompt}])
+    answer = chat_completion.choices[0].message["content"]
+    return answer
 
 @studygpt.on_message(filters.command(["start"]))
 async def start(_, message):
@@ -89,13 +85,24 @@ async def callback_query_handler(_, query):
     elif query.data == "chat_gpt":
         await query.message.reply_text("You selected Chat GPT Assistant. Feel free to ask me any questions!")
 
-@studygpt.on_message(filters.text)
+@studygpt.on_message(filters.command("code"))
 async def code(_, message):
-    if message.text.startswith("/code "):
-        code_input = message.text[len("/code "):]
-        await message.reply_chat_action(action=ChatAction.TYPING)
-        code_output = generate_code(code_input)
-        await message.reply_text(f"**Input:**\n```\n{code_input}\n```\n**Output:**\n```\n{code_output}\n```")
+    if len(message.text.split()) > 1;
+        prompt = message.text.split(None, 1)[1]
+        answer = genrate_code(prompt)
+        await message.reply_text(answer)
+    else:
+        await message.reply_text("Please use /code (your code or ask a code)")
+
+@studygpt.on_message(filters.text)
+async def reply(_, message):
+    if (message.text).startswith("/"):
+        return
+    else:
+        prompt = message.text
+        answer = genrate_code(prompt)
+        await message.reply_text(answer)
+       
 
 studygpt.run()
 print("Bot started!")
