@@ -3,7 +3,9 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import openai
 import asyncio
 
-openai.api_key = "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"
+openai.api_key = "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"
+print("API Key:", openai.api_key)
+
 
 API_ID = 14688437
 API_HASH = "5310285db722d1dceb128b88772d53a6"
