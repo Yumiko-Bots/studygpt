@@ -4,7 +4,7 @@ import openai
 import asyncio
 import os
 
-openai.api_key = os.environ.get("OPENAI_API_KEY", "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")
+openai.api_key = os.environ.get("OPENAI_API_KEY", "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")
 
 
 API_ID = 14688437
@@ -14,9 +14,12 @@ BOT_TOKEN = "6652935072:AAEDRvQfbuQVdxpOpillomYwpYn6euetpdY"
 studygpt = Client("studygpt", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 def generate_code(prompt):
-    chat_completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": prompt}])
-    answer = chat_completion.choices[0].message["content"]
-    return answer
+    try:
+        chat_completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": prompt}])
+        answer = chat_completion.choices[0].message["content"]
+        return answer
+    except Exception as e:
+        return f"Error generating code: {str(e)}"
 
 @studygpt.on_message(filters.command(["start"]))
 async def start(_, message):
