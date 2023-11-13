@@ -4,7 +4,7 @@ import openai
 import asyncio
 import os
 
-openai.api_key = os.environ.get("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")
+openai.api_key = os.environ.get("OPENAI_API_KEY", "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")
 
 
 API_ID = 14688437
