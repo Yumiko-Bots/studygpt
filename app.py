@@ -2,9 +2,9 @@ from pyrogram import filters, Client, idle
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import openai
 import asyncio
+import os
 
-openai.api_key = "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"
-print("API Key:", openai.api_key)
+openai.api_key = os.environ.get("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")
 
 
 API_ID = 14688437
